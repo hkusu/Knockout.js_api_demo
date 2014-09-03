@@ -15,6 +15,8 @@ module.exports = function (grunt) {
     // Time how long tasks take. Can help when optimizing build times
     require('time-grunt')(grunt);
 
+    grunt.loadNpmTasks('grunt-haml');
+
     // Configurable paths
     var config = {
         app: 'app',
@@ -40,6 +42,10 @@ module.exports = function (grunt) {
             coffeeTest: {
                 files: ['test/spec/{,*/}*.{coffee,litcoffee,coffee.md}'],
                 tasks: ['coffee:test', 'test:watch']
+            },
+            haml: {
+                files: ['<%= config.app %>/{,*/}*.haml'],
+                tasks: ['haml']
             },
             gruntfile: {
                 files: ['Gruntfile.js']
@@ -161,6 +167,19 @@ module.exports = function (grunt) {
                     dest: '.tmp/spec',
                     ext: '.js'
                 }]
+            }
+        },
+
+        haml: {
+            two: {
+                files: grunt.file.expandMapping(['app/*.haml','app/views/*.haml'], './',{
+                    rename: function(base, path) {
+                        return base + path.replace(/\.haml$/, '.html');
+                    }
+                }),
+                options: {
+                    language: 'ruby'
+                }
             }
         },
 
@@ -327,14 +346,17 @@ module.exports = function (grunt) {
         concurrent: {
             server: [
                 'coffee:dist',
+                'haml',
                 'copy:styles'
             ],
             test: [
                 'coffee',
+                'haml',
                 'copy:styles'
             ],
             dist: [
                 'coffee',
+                'haml',
                 'copy:styles',
                 'imagemin',
                 'svgmin'
