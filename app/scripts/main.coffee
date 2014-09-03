@@ -8,7 +8,7 @@ $ ->
         defer = $.Deferred()
         $.ajax
           type: "GET"
-          url: "/dist/api_dummy.json"
+          url: "/Knockout.js_api_demo/dist/api_dummy.json"
           dataType: "json"
           cache: false
           success: defer.resolve
