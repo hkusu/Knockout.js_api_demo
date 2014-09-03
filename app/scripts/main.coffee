@@ -8,7 +8,7 @@ $ ->
         defer = $.Deferred()
         $.ajax
           type: "GET"
-          url: "/api_dummy.json"
+          url: "/dist/api_dummy.json"
           dataType: "json"
           cache: false
           success: defer.resolve
